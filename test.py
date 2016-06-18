@@ -1,8 +1,7 @@
 import unittest
-import tempfile
-import StringIO
 import os
 from code import *
+from random import randint
 
 class TestLoadData(unittest.TestCase):
 
@@ -48,7 +47,7 @@ class TestEmptyExtents(unittest.TestCase):
             Working with empty extents file should always yield N to be 0
         """
         intervals = load_data(self.prefix)
-        N = compute_num_intervals(10, intervals)
+        N = compute_num_intervals(randint(0, 2147483647), intervals)
         self.assertEqual(N, 0)
 
 
@@ -59,7 +58,7 @@ class TestLargeExtents(unittest.TestCase):
             Working with large extents file should be fine
         """
         intervals = load_data('test_large')
-        N = compute_num_intervals(10, intervals)
+        N = compute_num_intervals(randint(0, 2147483647), intervals)
         self.assertEqual(N, 1000000)
 
 
