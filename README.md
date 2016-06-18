@@ -17,7 +17,7 @@ $ python test.py
 
 ## Complexity Analysis
 
-After we put intervals with corresponding count number into dictionary, let the size of the dictionary be m (m < #of intervals). Then the running time of `load_data` due to sorting function is O(mlog(m)). The running time of `compute_num_intervals` is O(log(m)) + O(upper) which in a worse case will be O(#of intervals).
+After we put intervals with corresponding count number into dictionary, let the size of the dictionary be m (m < #of intervals). Then the running time of `load_data` due to sorting function is O(m\*log(m)). The running time of `compute_num_intervals` is O(log(m)) + O(upper) which in a worse case will be O(#of intervals). So overall if the number of input numbers N is large (N >> m) then running time is O(N\*log(m)) + O(N\*upper) (compared to previous solution where it was O(N\*m)).
 
 ## Testing
 
