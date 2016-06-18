@@ -1,6 +1,7 @@
 import unittest
 import os
 from code import *
+from utils import *
 from random import randint
 
 class TestLoadData(unittest.TestCase):
@@ -11,7 +12,7 @@ class TestLoadData(unittest.TestCase):
         self.test_path = 'extents/' + self.prefix + '_extents.txt'
         self.test_file = open(self.test_path, 'w')
 
-        contents = '1 12' + '\n' + '106 122' + '\n' + '123 124' + '\n' + '12 33' + '\n'
+        contents = '1 12' + '\n' + '106 122' + '\n' + '123 124' + '\n' + '12 33' + '\n' + '12 33' + '\n'
 
         self.test_file.write(contents)
         self.test_file.close()
@@ -22,10 +23,10 @@ class TestLoadData(unittest.TestCase):
 
     def test_load_data(self):
         """
-            load_data function should return an array of intervals
+            load_data function should return an array of sorted intervals (by lower bound) and correspoding counts
         """
         intervals = load_data(self.prefix)
-        self.assertEqual(intervals, [[1,12],[106,122],[123,124],[12,33]])
+        self.assertEqual(intervals, [[1,12,1],[12,33,2],[106,122,1],[123,124,1]])
 
 
 class TestEmptyExtents(unittest.TestCase):
@@ -61,6 +62,31 @@ class TestLargeExtents(unittest.TestCase):
         N = compute_num_intervals(randint(0, 2147483647), intervals)
         self.assertEqual(N, 1000000)
 
+
+class TestBinarySearch(unittest.TestCase):
+
+    def setUp(self):
+        self.test = [[4, 12, 1], [12, 33, 2], [106, 122, 1], [123, 124, 1]]
+
+    def test_binary(self):
+        """
+            lower and upper binary search should return correct array indecies
+        """
+        upper1 = upperBoundBinarySearch(self.test, 3)
+        upper2 = upperBoundBinarySearch(self.test, 129)
+        upper3 = upperBoundBinarySearch(self.test, 35)
+
+        lower1 = lowerBoundBinarySearch(self.test, 3)
+        lower2 = lowerBoundBinarySearch(self.test, 129)
+        lower3 = lowerBoundBinarySearch(self.test, 35)
+
+        self.assertEqual(upper1, -1)
+        self.assertEqual(upper2, 3)
+        self.assertEqual(upper3, 1)
+
+        self.assertEqual(lower1, 0)
+        self.assertEqual(lower2, -1)
+        self.assertEqual(lower3, 2)
 
 if __name__ == '__main__':
     unittest.main()

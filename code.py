@@ -2,7 +2,8 @@ import sys
 import re
 import os
 from types import *
-
+from utils import *
+import collections as cl
 
 def load_data(file_prefix):
     """
@@ -20,8 +21,17 @@ def load_data(file_prefix):
     # remove last line
     if (not re.match(r'\d+\s\d+', intervals[-1])):
         intervals = intervals[0:-1]
-    intervals = map(lambda a: map(int, a.split(' ')), intervals)
-    return intervals
+
+    # count the number of same intervals, create an array of intervals with corresponding
+    # counts and sort the array by lower bounds
+    counter = cl.Counter()
+    for interval in intervals:
+        counter[interval] += 1
+    intervals_count = map(lambda (a,b): map(int, a.split(' ')) + [b], counter.items())
+    sort_intervals = sorted(intervals_count)
+
+    return sort_intervals
+
 
 def compute_num_intervals(P, intervals):
     """
@@ -33,8 +43,19 @@ def compute_num_intervals(P, intervals):
     """
     assert type(P) is IntType, "P is not an integer: %r" % P
 
-    contained = map(lambda interval: 1 if ((interval[0] <= P) and (P <= interval[1])) else 0, intervals)
-    return sum(contained)
+    sum = 0
+
+    lower = lowerBoundBinarySearch(intervals, P)
+    upper = upperBoundBinarySearch(intervals, P)
+
+    if (lower == -1 or upper == -1):
+        return 0
+
+    for i in range(lower, upper+1):
+        if (intervals[i][0] <= P and P <= intervals[i][1]):
+            sum += intervals[i][2]
+
+    return sum
 
 def main(test_file_prefix):
 
