@@ -8,7 +8,7 @@ class TestLoadData(unittest.TestCase):
 
     def setUp(self):
         # Create a temporary file
-        self.prefix = 'test_large'
+        self.prefix = 'test'
         self.test_path = 'extents/' + self.prefix + '_extents.txt'
         self.test_file = open(self.test_path, 'w')
 
@@ -54,30 +54,13 @@ class TestEmptyExtents(unittest.TestCase):
 
 class TestLargeExtents(unittest.TestCase):
 
-    def setUp(self):
-        # Create a temporary file
-        self.prefix = 'test_large'
-        self.test_path = 'extents/' + self.prefix + '_extents.txt'
-        self.test_file = open(self.test_path, 'w')
-
-        contents = ''
-        for i in range(0,100000):
-            contents = contents + '1 2147483647' + '\n'
-
-        self.test_file.write(contents)
-        self.test_file.close()
-
-    def tearDown(self):
-        # Remove the file after the test
-        os.remove(self.test_path)
-
     def test_large(self):
         """
             Working with large extents file should be fine
         """
-        intervals = load_data(self.prefix)
+        intervals = load_data('test_large')
         N = compute_num_intervals(10, intervals)
-        self.assertEqual(N, 100000)
+        self.assertEqual(N, 1000000)
 
 
 if __name__ == '__main__':
