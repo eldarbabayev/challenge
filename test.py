@@ -70,23 +70,15 @@ class TestBinarySearch(unittest.TestCase):
 
     def test_binary(self):
         """
-            lower and upper binary search should return correct array indecies
+            Binary search should return correct array indecies
         """
-        upper1 = upperBoundBinarySearch(self.test, 3)
-        upper2 = upperBoundBinarySearch(self.test, 129)
-        upper3 = upperBoundBinarySearch(self.test, 35)
-
-        lower1 = lowerBoundBinarySearch(self.test, 3)
-        lower2 = lowerBoundBinarySearch(self.test, 129)
-        lower3 = lowerBoundBinarySearch(self.test, 35)
+        upper1 = customBinarySearch(self.test, 3)
+        upper2 = customBinarySearch(self.test, 129)
+        upper3 = customBinarySearch(self.test, 35)
 
         self.assertEqual(upper1, -1)
         self.assertEqual(upper2, 3)
         self.assertEqual(upper3, 1)
-
-        self.assertEqual(lower1, 0)
-        self.assertEqual(lower2, -1)
-        self.assertEqual(lower3, 2)
 
 if __name__ == '__main__':
     unittest.main()

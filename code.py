@@ -45,14 +45,13 @@ def compute_num_intervals(P, intervals):
 
     sum = 0
 
-    lower = lowerBoundBinarySearch(intervals, P)
-    upper = upperBoundBinarySearch(intervals, P)
+    upper = customBinarySearch(intervals, P)
 
-    if (lower == -1 or upper == -1):
+    if (upper == -1):
         return 0
 
-    for i in range(lower, upper+1):
-        if (intervals[i][0] <= P and P <= intervals[i][1]):
+    for i in range(0, upper+1):
+        if (P <= intervals[i][1]):
             sum += intervals[i][2]
 
     return sum
